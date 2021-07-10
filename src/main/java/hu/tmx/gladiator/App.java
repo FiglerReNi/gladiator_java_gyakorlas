@@ -5,8 +5,8 @@ import hu.tmx.gladiator.service.GladiatorFactory;
 
 public class App {
     public static void main(String[] args) {
-        GladiatorFactory gladiatorFactory = new GladiatorFactory();
-        Gladiator one = gladiatorFactory.generateRandomGladiator();
+        Gladiator one = GladiatorFactory.generateRandomGladiator();
         System.out.println(one.getFullName());
+        System.out.println(one.toString());
     }
 }

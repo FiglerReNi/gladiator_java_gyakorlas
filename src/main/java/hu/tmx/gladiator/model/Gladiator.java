@@ -10,6 +10,7 @@ public abstract class Gladiator {
     private int strength;
     private int dexterity;
     private int currentHealth;
+    private boolean dead = false;
 
     public Gladiator(String name) {
         this.name = name;
@@ -28,12 +29,36 @@ public abstract class Gladiator {
         this.level = level;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
     public String getFullName(){
         return getClass().getSimpleName() + " " + name;
     }
 
     public void levelUp(){
-        setLevel(getLevel()+1);
+        setLevel(getLevel() + 1);
     }
 
     protected abstract double getHealthMultiplier();
@@ -52,13 +77,19 @@ public abstract class Gladiator {
         return (int) (dexterity * getDexterityMultiplier() * level);
     }
 
+    public void decreaseHpBy(){ }
 
+    public void healUp(){}
 
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Gladiator{" +
+                "name='" + name + '\'' +
+                ", level=" + level +
+                ", health=" + health +
+                ", strength=" + strength +
+                ", dexterity=" + dexterity +
+                ", currentHealth=" + currentHealth +
+                '}';
+    }
 }

@@ -6,7 +6,7 @@ import static hu.tmx.gladiator.util.Util.randomName;
 
 
 public class GladiatorFactory {
-    public Gladiator generateRandomGladiator(){
+    public static Gladiator generateRandomGladiator(){
        int choice =  RANDOM.nextInt(5);
        Gladiator gladiator;
        switch (choice){
