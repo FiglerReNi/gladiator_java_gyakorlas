@@ -1,8 +1,8 @@
 package hu.tmx.gladiator.service;
 
 import hu.tmx.gladiator.model.*;
-
 import static hu.tmx.gladiator.util.Util.RANDOM;
+import static hu.tmx.gladiator.util.Util.randomName;
 
 
 public class GladiatorFactory {
@@ -11,16 +11,16 @@ public class GladiatorFactory {
        Gladiator gladiator;
        switch (choice){
            case 0:
-               gladiator = new Brutal("Brutus");
+               gladiator = new Brutal(randomName());
                break;
            case 1:
-               gladiator = new Assassin("Géza");
+               gladiator = new Assassin(randomName());
                break;
            case 2:
-               gladiator = new Archer("Leo");
+               gladiator = new Archer(randomName());
                break;
            default:
-               gladiator = new Swordsman("Józsi");
+               gladiator = new Swordsman(randomName());
                break;
        }
        return gladiator;

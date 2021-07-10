@@ -5,7 +5,7 @@ public enum StatisticMultiplier {
     MEDIUM(1.0),
     HIGH(1.25);
 
-    private double value;
+    private final double value;
 
     StatisticMultiplier(double value){
         this.value = value;

@@ -17,14 +17,14 @@ public abstract class Gladiator {
         this.strength = RANDOM.nextInt(76)+25;
         this.dexterity = RANDOM.nextInt(76)+25;
         this.level = RANDOM.nextInt(5)+1;
-        this.level = this.health;
+        this.currentHealth = this.health;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    private void setLevel(int level) {
         this.level = level;
     }
 

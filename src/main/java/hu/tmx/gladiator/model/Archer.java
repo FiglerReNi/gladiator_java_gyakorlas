@@ -2,7 +2,6 @@ package hu.tmx.gladiator.model;
 
 public class Archer extends Gladiator {
 
-
     public Archer(String name) {
         super(name);
     }
