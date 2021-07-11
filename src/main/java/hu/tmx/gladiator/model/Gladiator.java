@@ -21,11 +21,15 @@ public abstract class Gladiator {
         this.currentHealth = this.health;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getLevel() {
         return level;
     }
 
-    private void setLevel(int level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -41,10 +45,6 @@ public abstract class Gladiator {
         return dexterity;
     }
 
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-
     public void setDead(boolean dead) {
         this.dead = dead;
     }
@@ -53,12 +53,20 @@ public abstract class Gladiator {
         return dead;
     }
 
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
     public String getFullName(){
-        return getClass().getSimpleName() + " " + name;
+        return getClass().getSimpleName() + " " + this.getName();
     }
 
     public void levelUp(){
-        setLevel(getLevel() + 1);
+        this.setLevel(this.getLevel() + 1);
     }
 
     protected abstract double getHealthMultiplier();
@@ -66,15 +74,15 @@ public abstract class Gladiator {
     protected abstract double getDexterityMultiplier();
 
     public int maxHealth(){
-        return (int) (health * getHealthMultiplier() * level);
+        return (int) (this.getHealth() * this.getHealthMultiplier() * this.getLevel());
     }
 
     public int maxStrength(){
-        return (int) (strength * getStrengthMultiplier() * level);
+        return (int) (this.getStrength() * this.getStrengthMultiplier() * this.getLevel());
     }
 
     public int maxDexterity(){
-        return (int) (dexterity * getDexterityMultiplier() * level);
+        return (int) (this.getDexterity() * this.getDexterityMultiplier() * this.getLevel());
     }
 
     public void decreaseHpBy(){ }

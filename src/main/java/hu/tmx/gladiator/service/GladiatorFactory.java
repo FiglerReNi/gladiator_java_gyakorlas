@@ -4,7 +4,6 @@ import hu.tmx.gladiator.model.*;
 import static hu.tmx.gladiator.util.Util.RANDOM;
 import static hu.tmx.gladiator.util.Util.randomName;
 
-
 public class GladiatorFactory {
     public static Gladiator generateRandomGladiator(){
        int choice =  RANDOM.nextInt(5);
