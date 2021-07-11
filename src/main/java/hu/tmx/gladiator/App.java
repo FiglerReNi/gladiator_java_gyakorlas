@@ -8,6 +8,6 @@ public class App {
     public static void main(String[] args) {
         Gladiator one = GladiatorFactory.generateRandomGladiator();
         Gladiator two = GladiatorFactory.generateRandomGladiator();
-        Combat combat = new Combat(one, two);
+        new Combat(one, two);
     }
 }
