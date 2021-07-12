@@ -10,7 +10,6 @@ public abstract class Gladiator {
     private int strength;
     private int dexterity;
     private int currentHealth;
-    private boolean dead = false;
 
     public Gladiator(String name) {
         this.name = name;
@@ -45,13 +44,19 @@ public abstract class Gladiator {
         return dexterity;
     }
 
-    public void setDead(boolean dead) {
-        this.dead = dead;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public boolean isDead() {
-        return dead;
+    public void setStrength(int strength) {
+        this.strength = strength;
     }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public boolean isDead() { return currentHealth <= 0; }
 
     public int getCurrentHealth() {
         return currentHealth;
@@ -62,32 +67,39 @@ public abstract class Gladiator {
     }
 
     public String getFullName(){
-        return getClass().getSimpleName() + " " + this.getName();
+        return getClass().getSimpleName() + " " + getName();
     }
 
     public void levelUp(){
-        this.setLevel(this.getLevel() + 1);
+        setLevel(getLevel() + 1);
+        setHealth(maxHealth());
+        setStrength(maxStrength());
+        setDexterity(maxDexterity());
     }
 
     protected abstract double getHealthMultiplier();
     protected abstract double getStrengthMultiplier();
     protected abstract double getDexterityMultiplier();
 
-    public int maxHealth(){
-        return (int) (this.getHealth() * this.getHealthMultiplier() * this.getLevel());
+    private int maxHealth(){
+        return (int) (getHealth() * getHealthMultiplier() * getLevel());
     }
 
-    public int maxStrength(){
-        return (int) (this.getStrength() * this.getStrengthMultiplier() * this.getLevel());
+    private int maxStrength(){
+        return (int) (getStrength() * getStrengthMultiplier() * getLevel());
     }
 
-    public int maxDexterity(){
-        return (int) (this.getDexterity() * this.getDexterityMultiplier() * this.getLevel());
+    private int maxDexterity(){
+        return (int) (getDexterity() * getDexterityMultiplier() * getLevel());
     }
 
-    public void decreaseHpBy(){ }
+    public void decreaseHpBy(int damage){
+        setCurrentHealth(getCurrentHealth()-damage);
+    }
 
-    public void healUp(){}
+    public void healUp(){
+        setCurrentHealth(getHealth());
+    }
 
     @Override
     public String toString() {

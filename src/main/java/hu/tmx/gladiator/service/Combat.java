@@ -10,7 +10,6 @@ import static hu.tmx.gladiator.util.Util.RANDOM;
 public class Combat {
 
     private Map<String, Gladiator> competitors = new HashMap<>();
-    private Gladiator winner;
     private boolean hit;
 
     public Combat(Gladiator gladiatorOne, Gladiator gladiatorTwo) {
@@ -22,15 +21,6 @@ public class Combat {
             this.competitors.put("attacker", gladiatorTwo);
             this.competitors.put("defender", gladiatorOne);
         }
-        this.simulation();
-    }
-
-    public Gladiator getWinner() {
-        return this.winner;
-    }
-
-    public void setWinner(Gladiator winner) {
-        this.winner = winner;
     }
 
     public boolean isHit() {
@@ -41,36 +31,35 @@ public class Combat {
         this.hit = hit;
     }
 
-    public void simulation(){
+    public Gladiator simulation(){
         while(!this.competitors.get("attacker").isDead() && !this.competitors.get("defender").isDead()) {
-            this.hitOrMiss();
-            if(this.isHit()){
+            hitOrMiss();
+            if(isHit()){
                 System.out.println(this.competitors.get("attacker"));
                 System.out.println(this.competitors.get("defender"));
                 double range = (double)(RANDOM.nextInt(5)+1)/10;
                 int damage = (int)(this.competitors.get("attacker").getStrength() * range);
-                this.competitors.get("defender").setCurrentHealth(this.competitors.get("defender").getCurrentHealth() - damage);
+                this.competitors.get("defender").decreaseHpBy(damage);
                 System.out.println(this.competitors.get("attacker").getFullName() + " deals " + damage + " damage");
                 System.out.println(this.competitors.get("attacker"));
                 System.out.println(this.competitors.get("defender"));
             }else{
                 System.out.println(this.competitors.get("attacker").getFullName() + " missed");
             }
-            if (this.competitors.get("defender").getCurrentHealth() <= 0) {
-                this.competitors.get("defender").setDead(true);
-                this.setWinner(this.competitors.get("attacker"));
-            }
 
-            if (this.getWinner() == null) {
+            if (!this.competitors.get("defender").isDead()) {
                 Gladiator attacker = this.competitors.get("attacker");
                 this.competitors.put("attacker", this.competitors.get("defender"));
                 this.competitors.put("defender", attacker);
             }
         }
-        System.out.println(this.competitors.get("defender").getFullName() + " died " + this.getWinner().getFullName() + " wins");
+        this.competitors.get("attacker").levelUp();
+        this.competitors.get("attacker").healUp();
+        System.out.println(this.competitors.get("defender").getFullName() + " died " + this.competitors.get("attacker").getFullName() + " wins");
+        return this.competitors.get("attacker");
     }
 
-    public void hitOrMiss(){
+    private void hitOrMiss(){
         int percentage = RANDOM.nextInt(100) +1;
         int chanceValue;
         int dexDifference = this.competitors.get("attacker").getDexterity() - this.competitors.get("defender").getDexterity();
