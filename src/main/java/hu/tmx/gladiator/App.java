@@ -19,12 +19,13 @@ public class App {
             competitors.add(GladiatorFactory.generateRandomGladiator());
         }
         while (competitors.size() != 1){
+            System.out.println("-----------------------------------\n");
             List<Gladiator> temp = new ArrayList<>(competitors);
             competitors.clear();
             for(int i = 0; i < temp.size(); i = i + 2){
                 Combat combat = new Combat(temp.get(i), temp.get(i+1));
                 competitors.add(combat.simulation());
-                System.out.println("----------------- END -------------------");
+                System.out.println("\n");
             }
         }
         System.out.println("Final winner: " + competitors.get(0).getFullName());
