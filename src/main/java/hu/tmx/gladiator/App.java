@@ -13,16 +13,22 @@ public class App {
     public static void main(String[] args) {
 
         int competitorsNumber = (int) Math.pow(2,(RANDOM.nextInt(4) + 1));
-        List<Gladiator[]> competitors = new ArrayList<>();
-        List<Gladiator> winners = new ArrayList<>();
-        for(int i = 0; i < competitorsNumber/2; i++){
-            competitors.add(new Gladiator[]{GladiatorFactory.generateRandomGladiator(), GladiatorFactory.generateRandomGladiator()});
+        List<Gladiator> competitors = new ArrayList<>();
+
+        for(int i = 0; i < competitorsNumber; i++){
+            competitors.add(GladiatorFactory.generateRandomGladiator());
         }
 
-        for(Gladiator[] combatParticipants: competitors){
-            Combat combat = new Combat(combatParticipants[0], combatParticipants[1]);
-            winners.add(combat.simulation());
-            System.out.println("----------------- END -------------------");
+        while (competitors.size() != 1){
+            List<Gladiator> temp = new ArrayList<>(competitors);
+            competitors.clear();
+            for(int i = 0; i < temp.size(); i = i + 2){
+                Combat combat = new Combat(temp.get(i), temp.get(i+1));
+                competitors.add(combat.simulation());
+                System.out.println("----------------- END -------------------");
+            }
         }
+
+        System.out.println(competitors);
     }
 }
