@@ -35,14 +35,10 @@ public class Combat {
         while(!this.competitors.get("attacker").isDead() && !this.competitors.get("defender").isDead()) {
             hitOrMiss();
             if(isHit()){
-                System.out.println(this.competitors.get("attacker"));
-                System.out.println(this.competitors.get("defender"));
                 double range = (double)(RANDOM.nextInt(5)+1)/10;
                 int damage = (int)(this.competitors.get("attacker").getStrength() * range);
                 this.competitors.get("defender").decreaseHpBy(damage);
                 System.out.println(this.competitors.get("attacker").getFullName() + " deals " + damage + " damage");
-                System.out.println(this.competitors.get("attacker"));
-                System.out.println(this.competitors.get("defender"));
             }else{
                 System.out.println(this.competitors.get("attacker").getFullName() + " missed");
             }

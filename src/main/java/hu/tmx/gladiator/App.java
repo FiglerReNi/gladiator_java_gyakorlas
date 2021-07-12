@@ -18,7 +18,6 @@ public class App {
         for(int i = 0; i < competitorsNumber; i++){
             competitors.add(GladiatorFactory.generateRandomGladiator());
         }
-
         while (competitors.size() != 1){
             List<Gladiator> temp = new ArrayList<>(competitors);
             competitors.clear();
@@ -28,7 +27,6 @@ public class App {
                 System.out.println("----------------- END -------------------");
             }
         }
-
-        System.out.println(competitors);
+        System.out.println("Final winner: " + competitors.get(0).getFullName());
     }
 }
