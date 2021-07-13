@@ -7,7 +7,7 @@ public enum StatisticMultiplier {
 
     private final double value;
 
-    StatisticMultiplier(double value){
+    StatisticMultiplier(double value) {
         this.value = value;
     }
 

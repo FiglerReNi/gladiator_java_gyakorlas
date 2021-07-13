@@ -12,7 +12,7 @@ import static hu.tmx.gladiator.util.Util.RANDOM;
 public class App {
     public static void main(String[] args) {
 
-        int competitorsNumber = (int) Math.pow(2,(RANDOM.nextInt(4) + 1));
+        int competitorsNumber = (int) Math.pow(2,(RANDOM.nextInt(1) + 1));
         List<Gladiator> competitors = new ArrayList<>();
 
         for(int i = 0; i < competitorsNumber; i++){

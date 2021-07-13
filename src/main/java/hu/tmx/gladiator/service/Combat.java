@@ -11,6 +11,7 @@ public class Combat {
 
     private Map<String, Gladiator> competitors = new HashMap<>();
     private boolean hit;
+    private double damage;
 
     public Combat(Gladiator gladiatorOne, Gladiator gladiatorTwo) {
         int choice = RANDOM.nextInt(2);
@@ -23,12 +24,12 @@ public class Combat {
         }
     }
 
-    public boolean isHit() {
-        return hit;
-    }
-
     public void setHit(boolean hit) {
         this.hit = hit;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
     }
 
     public Gladiator simulation() {
@@ -43,7 +44,7 @@ public class Combat {
         while (!competitors.get("attacker").isDead() && !competitors.get("defender").isDead()) {
             hitOrMiss();
             if (!competitors.get("defender").isParalyzed()) {
-                if (isHit()) {
+                if (this.hit) {
                     attack();
                 } else {
                     System.out.println(competitors.get("attacker").getFullName() + " missed");
@@ -75,82 +76,78 @@ public class Combat {
         this.setHit(percentage <= chanceValue);
     }
 
-    private double plusDamage(int defenderCurrentHealth) {
+    private void plusDamage() {
         switch (competitors.get("attacker").getWeaponType()) {
             case BLEEDING:
-                return this.bleeding(defenderCurrentHealth);
+                bleeding();
             case POISON:
-                return this.poison(defenderCurrentHealth);
+                poison();
             case BURNING:
-                return this.burning(defenderCurrentHealth);
+                burning();
             case PARALYZING:
-                competitors.get("defender").setParalyzed(paralyzing());
+                paralyzing();
                 break;
         }
-        return 0;
     }
 
     private void attack() {
-        double range = (double) (RANDOM.nextInt(5) + 1) / 10;
-        double plusDamage = plusDamage(competitors.get("defender").getCurrentHealth());
-        int damage = (int) ((competitors.get("attacker").getStrength() * range) + plusDamage);
-        competitors.get("defender").decreaseHpBy(damage);
+        double range = (double)(RANDOM.nextInt(5) + 1) / 10;
+        this.damage = (competitors.get("attacker").getStrength() * range);
+        plusDamage();
+        competitors.get("defender").decreaseHpBy((int)damage);
         System.out.println(competitors.get("attacker").getFullName() + " deals " + damage + " damage");
     }
 
-    private double bleeding(int currentHealth) {
+    private void bleeding() {
         if ((RANDOM.nextInt(100) + 1) <= 5) {
             competitors.get("attacker").setBleeding(competitors.get("attacker").getBleeding() + 1);
-            return (currentHealth * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding());
+            setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding()));
         } else {
             if (competitors.get("attacker").getBleeding() != 0) {
-                return (currentHealth * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding());
+                setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding()));
             }
         }
-        return 0;
     }
 
-    private double poison(int currentHealth) {
+    private void poison() {
         if ((RANDOM.nextInt(100) + 1) <= 20) {
             competitors.get("attacker").setPoisoned(competitors.get("attacker").getPoisoned() + 1);
             if (competitors.get("attacker").getPoisoned() > 1) {
-                return 0;
+                competitors.get("defender").setCurrentHealth(0);
             }
-            return (currentHealth * Gladiator.POISON_BURNING_DAMAGE);
+            setDamage(this.damage +(competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
             if (competitors.get("attacker").getPoisoned() != 0 && competitors.get("attacker").getTurns() < 3) {
                 competitors.get("attacker").setPoisoned(competitors.get("attacker").getPoisoned() + 1);
-                return (currentHealth * Gladiator.POISON_BURNING_DAMAGE);
+                setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
             if (competitors.get("attacker").getTurns() == 3) {
                 competitors.get("attacker").setPoisoned(0);
             }
-            return 0;
         }
     }
 
-    private double burning(int currentHealth) {
+    private void burning() {
         if ((RANDOM.nextInt(100) + 1) <= 15) {
             competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() + (RANDOM.nextInt(5) + 1));
-            return (currentHealth * Gladiator.POISON_BURNING_DAMAGE);
+            setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
             if (competitors.get("attacker").getTurns() != 0) {
                 competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() - 1);
-                return (currentHealth * Gladiator.POISON_BURNING_DAMAGE);
+                setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
-            return 0;
         }
     }
 
-    private boolean paralyzing() {
+    private void paralyzing() {
         if ((RANDOM.nextInt(100) + 1) <= 10) {
             competitors.get("attacker").setTurns(4);
-            return true;
+            competitors.get("defender").setParalyzed(true);
         } else {
             if (competitors.get("attacker").getTurns() > 0) {
                 competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() - 1);
             }
-            return (competitors.get("attacker").getTurns() != 0);
+            competitors.get("defender").setParalyzed(competitors.get("attacker").getTurns() != 0);
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import static hu.tmx.gladiator.util.Util.RANDOM;
 
-public abstract class Gladiator{
+public abstract class Gladiator {
 
     public static final double BLEEDING_DAMAGE = 0.02;
     public static final double POISON_BURNING_DAMAGE = 0.05;
@@ -24,15 +24,15 @@ public abstract class Gladiator{
 
     public Gladiator(String name) {
         this.name = name;
-        this.health = RANDOM.nextInt(76)+25;
-        this.strength = RANDOM.nextInt(76)+25;
-        this.dexterity = RANDOM.nextInt(76)+25;
-        this.level = RANDOM.nextInt(5)+1;
+        this.health = RANDOM.nextInt(76) + 25;
+        this.strength = RANDOM.nextInt(76) + 25;
+        this.dexterity = RANDOM.nextInt(76) + 25;
+        this.level = RANDOM.nextInt(5) + 1;
         this.currentHealth = this.health;
         this.chooseWeaponType();
         this.paralyzed = false;
         this.bleeding = 0;
-        this.poisoned =0;
+        this.poisoned = 0;
         this.turns = 0;
     }
 
@@ -72,7 +72,9 @@ public abstract class Gladiator{
         this.dexterity = dexterity;
     }
 
-    public boolean isDead() { return currentHealth <= 0; }
+    public boolean isDead() {
+        return currentHealth <= 0;
+    }
 
     public int getCurrentHealth() {
         return currentHealth;
@@ -92,6 +94,10 @@ public abstract class Gladiator{
 
     public WeaponType getWeaponType() {
         return weaponType;
+    }
+
+    public void setWeaponType(WeaponType weaponType) {
+        this.weaponType = weaponType;
     }
 
     public int getBleeding() {
@@ -118,11 +124,11 @@ public abstract class Gladiator{
         this.turns = turns;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return getClass().getSimpleName() + " " + getName();
     }
 
-    public void levelUp(){
+    public void levelUp() {
         setLevel(getLevel() + 1);
         setHealth(maxHealth());
         setStrength(maxStrength());
@@ -130,35 +136,37 @@ public abstract class Gladiator{
     }
 
     protected abstract double getHealthMultiplier();
+
     protected abstract double getStrengthMultiplier();
+
     protected abstract double getDexterityMultiplier();
 
-    private int maxHealth(){
+    private int maxHealth() {
         return (int) (getHealth() * getHealthMultiplier() * getLevel());
     }
 
-    private int maxStrength(){
+    private int maxStrength() {
         return (int) (getStrength() * getStrengthMultiplier() * getLevel());
     }
 
-    private int maxDexterity(){
+    private int maxDexterity() {
         return (int) (getDexterity() * getDexterityMultiplier() * getLevel());
     }
 
-    public void decreaseHpBy(int damage){
-        setCurrentHealth(getCurrentHealth()-damage);
+    public void decreaseHpBy(int damage) {
+        setCurrentHealth(getCurrentHealth() - damage);
     }
 
-    public void healUp(){
+    public void healUp() {
         setCurrentHealth(getHealth());
     }
 
-    private void chooseWeaponType(){
-        if((RANDOM.nextInt(100)+1) <=10){
+    private void chooseWeaponType() {
+        if ((RANDOM.nextInt(100) + 1) <= 100) {
             List<WeaponType> values = Collections.unmodifiableList(Arrays.asList(WeaponType.values()));
-            this.weaponType = values.get(RANDOM.nextInt(values.size()-1));
-        }else{
-            this.weaponType = WeaponType.NORMAL;
+            setWeaponType(values.get(RANDOM.nextInt(values.size() - 1)));
+        } else {
+            setWeaponType(WeaponType.NORMAL);
         }
     }
 
@@ -171,6 +179,7 @@ public abstract class Gladiator{
                 ", strength=" + strength +
                 ", dexterity=" + dexterity +
                 ", currentHealth=" + currentHealth +
+                ", weaponType=" + weaponType +
                 '}';
     }
 }

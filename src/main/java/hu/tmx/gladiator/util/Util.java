@@ -10,7 +10,7 @@ public class Util {
 
     public static final Random RANDOM = new Random();
 
-    public static String randomName(){
+    public static String randomName() {
         NameGenerator generator = new NameGenerator();
         Name name = generator.generateName(Gender.MALE);
         return name.getFirstName();
