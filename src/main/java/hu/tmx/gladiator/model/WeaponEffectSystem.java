@@ -11,12 +11,12 @@ public class WeaponEffectSystem {
     private static final double BLEEDING_DAMAGE = 0.02;
     private static final double POISON_BURNING_DAMAGE = 0.05;
     private WeaponType weaponType;
-    private int bleeading;
+    private int bleeding;
     private int poisoned;
     private int turns;
 
     public WeaponEffectSystem() {
-        this.bleeading = 0;
+        this.bleeding = 0;
         this.poisoned =0;
         this.turns = 0;
         chooseWeaponType();
@@ -28,11 +28,11 @@ public class WeaponEffectSystem {
 
     public double bleeding(int currentHealth){
         if((RANDOM.nextInt(100)+1) <= 5){
-            bleeading++;
-            return (currentHealth * BLEEDING_DAMAGE * this.bleeading);
+            bleeding++;
+            return (currentHealth * BLEEDING_DAMAGE * this.bleeding);
         }else{
-            if(bleeading != 0) {
-                return (currentHealth * BLEEDING_DAMAGE * this.bleeading);
+            if(bleeding != 0) {
+                return (currentHealth * BLEEDING_DAMAGE * this.bleeding);
             }
         }
         return 0;
