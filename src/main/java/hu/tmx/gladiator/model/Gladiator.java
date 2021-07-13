@@ -1,8 +1,12 @@
 package hu.tmx.gladiator.model;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static hu.tmx.gladiator.util.Util.RANDOM;
 
-public abstract class Gladiator {
+public abstract class Gladiator{
 
     private final String name;
     private int level;
@@ -10,6 +14,8 @@ public abstract class Gladiator {
     private int strength;
     private int dexterity;
     private int currentHealth;
+    private boolean paralized;
+    private WeaponEffectSystem weaponEffectSystem;
 
     public Gladiator(String name) {
         this.name = name;
@@ -18,6 +24,8 @@ public abstract class Gladiator {
         this.dexterity = RANDOM.nextInt(76)+25;
         this.level = RANDOM.nextInt(5)+1;
         this.currentHealth = this.health;
+        this.paralized = false;
+        this.weaponEffectSystem = new WeaponEffectSystem();
     }
 
     public String getName() {
@@ -66,6 +74,18 @@ public abstract class Gladiator {
         this.currentHealth = currentHealth;
     }
 
+    public WeaponEffectSystem getWeaponEffectSystem() {
+        return weaponEffectSystem;
+    }
+
+    public boolean isParalized() {
+        return paralized;
+    }
+
+    public void setParalized(boolean paralized) {
+        this.paralized = paralized;
+    }
+
     public String getFullName(){
         return getClass().getSimpleName() + " " + getName();
     }
@@ -104,12 +124,13 @@ public abstract class Gladiator {
     @Override
     public String toString() {
         return "Gladiator{" +
-                "name='" + name + '\'' +
+                "name='" + getFullName() + '\'' +
                 ", level=" + level +
                 ", health=" + health +
                 ", strength=" + strength +
                 ", dexterity=" + dexterity +
                 ", currentHealth=" + currentHealth +
+                ", weapontype=" + weaponEffectSystem.getWeaponType() +
                 '}';
     }
 }

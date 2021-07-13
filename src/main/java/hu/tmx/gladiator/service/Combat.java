@@ -39,23 +39,26 @@ public class Combat {
         else if(this.competitors.get("defender") == null)
                 return this.competitors.get("attacker");
 
+        System.out.println(this.competitors.get("attacker").toString() + "-" + this.competitors.get("defender").toString());
         while(!this.competitors.get("attacker").isDead() && !this.competitors.get("defender").isDead()) {
             hitOrMiss();
-            if(isHit()){
-                double range = (double)(RANDOM.nextInt(5)+1)/10;
-                int damage = (int)(this.competitors.get("attacker").getStrength() * range);
-                this.competitors.get("defender").decreaseHpBy(damage);
-                System.out.println(this.competitors.get("attacker").getFullName() + " deals " + damage + " damage");
+            if(!this.competitors.get("defender").isParalized()) {
+                if (isHit()) {
+                    attack();
+                } else {
+                    System.out.println(this.competitors.get("attacker").getFullName() + " missed");
+                }
             }else{
-                System.out.println(this.competitors.get("attacker").getFullName() + " missed");
+               attack();
             }
 
-            if (!this.competitors.get("defender").isDead()) {
+            if (!this.competitors.get("defender").isDead() && !this.competitors.get("defender").isParalized()) {
                 Gladiator attacker = this.competitors.get("attacker");
                 this.competitors.put("attacker", this.competitors.get("defender"));
                 this.competitors.put("defender", attacker);
             }
         }
+
         this.competitors.get("attacker").levelUp();
         this.competitors.get("attacker").healUp();
         System.out.println(this.competitors.get("defender").getFullName() + " died " + this.competitors.get("attacker").getFullName() + " wins");
@@ -70,5 +73,31 @@ public class Combat {
             chanceValue = 10;
         }else chanceValue = Math.min(dexDifference, 100);
         this.setHit(percentage <= chanceValue);
+    }
+
+    private double plusDamage(int defenderCurrentHealth) {
+        WeaponType weaponType = this.competitors.get("attacker").getWeaponEffectSystem().getWeaponType();
+        if(weaponType != null) {
+            switch (weaponType) {
+                case BLEEDING:
+                    return this.competitors.get("attacker").getWeaponEffectSystem().bleeding(defenderCurrentHealth);
+                case POISON:
+                    return this.competitors.get("attacker").getWeaponEffectSystem().poison(defenderCurrentHealth);
+                case BURNING:
+                    return this.competitors.get("attacker").getWeaponEffectSystem().burning(defenderCurrentHealth);
+                case PARALYZING:
+                    this.competitors.get("defender").setParalized(this.competitors.get("attacker").getWeaponEffectSystem().paralyzing());
+                    break;
+            }
+        }
+        return 0;
+    }
+
+    private void attack(){
+        double range = (double) (RANDOM.nextInt(5) + 1) / 10;
+        double plusDamage = plusDamage(this.competitors.get("defender").getCurrentHealth());
+        int damage = (int) ((this.competitors.get("attacker").getStrength() * range) + plusDamage);
+        this.competitors.get("defender").decreaseHpBy(damage);
+        System.out.println(this.competitors.get("attacker").getFullName() + " deals " + damage + " damage");
     }
 }
