@@ -86,7 +86,7 @@ public class Combat {
                 case BURNING:
                     return this.competitors.get("attacker").getWeaponEffectSystem().burning(defenderCurrentHealth);
                 case PARALYZING:
-                    this.competitors.get("defender").setParalized(this.competitors.get("attacker").getWeaponEffectSystem().paralyzing());
+                    this.competitors.get("defender").setParalyzed(this.competitors.get("attacker").getWeaponEffectSystem().paralyzing());
                     break;
             }
         }
@@ -99,5 +99,62 @@ public class Combat {
         int damage = (int) ((this.competitors.get("attacker").getStrength() * range) + plusDamage);
         this.competitors.get("defender").decreaseHpBy(damage);
         System.out.println(this.competitors.get("attacker").getFullName() + " deals " + damage + " damage");
+    }
+
+    public double bleeding(int currentHealth){
+        if((RANDOM.nextInt(100)+1) <= 5){
+            bleeding++;
+            return (currentHealth * BLEEDING_DAMAGE * this.bleeding);
+        }else{
+            if(bleeding != 0) {
+                return (currentHealth * BLEEDING_DAMAGE * this.bleeding);
+            }
+        }
+        return 0;
+    }
+
+    public double poison(int currentHealth){
+        if((RANDOM.nextInt(100)+1) <= 20){
+            poisoned++;
+            if(poisoned > 1){
+                System.out.println(0);
+                return 0;
+            }
+            return (currentHealth * POISON_BURNING_DAMAGE);
+        }else{
+            if(poisoned != 0 && turns < 3){
+                turns++;
+                return (currentHealth * POISON_BURNING_DAMAGE);
+            }
+            if(turns == 3) {
+                turns = 0;
+            }
+            return 0;
+        }
+    }
+
+    public double burning(int currentHealth){
+        if((RANDOM.nextInt(100)+1) <= 15){
+            turns = turns + (RANDOM.nextInt(5)+1);
+            return (currentHealth * POISON_BURNING_DAMAGE);
+        }else{
+            if(turns != 0){
+                turns = turns - 1;
+                return (currentHealth * POISON_BURNING_DAMAGE);
+            }
+            return 0;
+        }
+    }
+
+    public boolean paralyzing(){
+        if((RANDOM.nextInt(100)+1) <= 10){
+            turns = 4;
+            return true;
+        }else{
+            if(turns > 0){
+                turns = turns - 1;
+            }
+            return (turns != 0);
+        }
     }
 }

@@ -8,13 +8,19 @@ import static hu.tmx.gladiator.util.Util.RANDOM;
 
 public abstract class Gladiator{
 
+    private static final double BLEEDING_DAMAGE = 0.02;
+    private static final double POISON_BURNING_DAMAGE = 0.05;
     private final String name;
     private int level;
     private int health;
     private int strength;
     private int dexterity;
     private int currentHealth;
-    private boolean paralized;
+    private WeaponType weaponType;
+    private boolean paralyzed;
+    private int bleeding;
+    private int poisoned;
+    private int turns;
     private WeaponEffectSystem weaponEffectSystem;
 
     public Gladiator(String name) {
@@ -24,7 +30,11 @@ public abstract class Gladiator{
         this.dexterity = RANDOM.nextInt(76)+25;
         this.level = RANDOM.nextInt(5)+1;
         this.currentHealth = this.health;
-        this.paralized = false;
+        this.chooseWeaponType();
+        this.paralyzed = false;
+        this.bleeding = 0;
+        this.poisoned =0;
+        this.turns = 0;
         this.weaponEffectSystem = new WeaponEffectSystem();
     }
 
@@ -78,12 +88,12 @@ public abstract class Gladiator{
         return weaponEffectSystem;
     }
 
-    public boolean isParalized() {
-        return paralized;
+    public boolean isParalyzed() {
+        return paralyzed;
     }
 
-    public void setParalized(boolean paralized) {
-        this.paralized = paralized;
+    public void setParalyzed(boolean paralyzed) {
+        this.paralyzed = paralyzed;
     }
 
     public String getFullName(){
@@ -119,6 +129,15 @@ public abstract class Gladiator{
 
     public void healUp(){
         setCurrentHealth(getHealth());
+    }
+
+    private void chooseWeaponType(){
+        if((RANDOM.nextInt(100)+1) <=10){
+            List<WeaponType> values = Collections.unmodifiableList(Arrays.asList(WeaponType.values()));
+            this.weaponType = values.get(RANDOM.nextInt(values.size()-1));
+        }else{
+            this.weaponType = WeaponType.NORMAL;
+        }
     }
 
     @Override

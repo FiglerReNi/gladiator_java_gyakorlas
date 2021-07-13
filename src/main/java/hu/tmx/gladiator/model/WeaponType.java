@@ -4,5 +4,6 @@ public enum WeaponType {
     BLEEDING,
     POISON,
     BURNING,
-    PARALYZING
+    PARALYZING,
+    NORMAL
 }
