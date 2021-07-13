@@ -162,7 +162,7 @@ public abstract class Gladiator {
     }
 
     private void chooseWeaponType() {
-        if ((RANDOM.nextInt(100) + 1) <= 100) {
+        if ((RANDOM.nextInt(100) + 1) <= 10) {
             List<WeaponType> values = Collections.unmodifiableList(Arrays.asList(WeaponType.values()));
             setWeaponType(values.get(RANDOM.nextInt(values.size() - 1)));
         } else {
