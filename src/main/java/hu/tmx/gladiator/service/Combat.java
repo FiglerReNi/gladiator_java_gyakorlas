@@ -80,10 +80,13 @@ public class Combat {
         switch (competitors.get("attacker").getWeaponType()) {
             case BLEEDING:
                 bleeding();
+                break;
             case POISON:
                 poison();
+                break;
             case BURNING:
                 burning();
+                break;
             case PARALYZING:
                 paralyzing();
                 break;
