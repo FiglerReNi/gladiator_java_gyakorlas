@@ -35,7 +35,7 @@ public class WeaponEffectSystem {
                 return (currentHealth * BLEEDING_DAMAGE * this.bleeading);
             }
         }
-        return currentHealth;
+        return 0;
     }
 
     public double poison(int currentHealth){
@@ -54,7 +54,7 @@ public class WeaponEffectSystem {
             if(turns == 3) {
                 turns = 0;
             }
-            return currentHealth;
+            return 0;
         }
     }
 
