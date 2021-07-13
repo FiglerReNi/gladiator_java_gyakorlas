@@ -8,8 +8,8 @@ import static hu.tmx.gladiator.util.Util.RANDOM;
 
 public abstract class Gladiator{
 
-    private static final double BLEEDING_DAMAGE = 0.02;
-    private static final double POISON_BURNING_DAMAGE = 0.05;
+    public static final double BLEEDING_DAMAGE = 0.02;
+    public static final double POISON_BURNING_DAMAGE = 0.05;
     private final String name;
     private int level;
     private int health;
@@ -21,7 +21,6 @@ public abstract class Gladiator{
     private int bleeding;
     private int poisoned;
     private int turns;
-    private WeaponEffectSystem weaponEffectSystem;
 
     public Gladiator(String name) {
         this.name = name;
@@ -35,7 +34,6 @@ public abstract class Gladiator{
         this.bleeding = 0;
         this.poisoned =0;
         this.turns = 0;
-        this.weaponEffectSystem = new WeaponEffectSystem();
     }
 
     public String getName() {
@@ -84,16 +82,40 @@ public abstract class Gladiator{
         this.currentHealth = currentHealth;
     }
 
-    public WeaponEffectSystem getWeaponEffectSystem() {
-        return weaponEffectSystem;
-    }
-
     public boolean isParalyzed() {
         return paralyzed;
     }
 
     public void setParalyzed(boolean paralyzed) {
         this.paralyzed = paralyzed;
+    }
+
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public int getBleeding() {
+        return bleeding;
+    }
+
+    public void setBleeding(int bleeding) {
+        this.bleeding = bleeding;
+    }
+
+    public int getPoisoned() {
+        return poisoned;
+    }
+
+    public void setPoisoned(int poisoned) {
+        this.poisoned = poisoned;
+    }
+
+    public int getTurns() {
+        return turns;
+    }
+
+    public void setTurns(int turns) {
+        this.turns = turns;
     }
 
     public String getFullName(){
@@ -149,7 +171,6 @@ public abstract class Gladiator{
                 ", strength=" + strength +
                 ", dexterity=" + dexterity +
                 ", currentHealth=" + currentHealth +
-                ", weapontype=" + weaponEffectSystem.getWeaponType() +
                 '}';
     }
 }
