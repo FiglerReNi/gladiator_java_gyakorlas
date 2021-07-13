@@ -32,6 +32,13 @@ public class Combat {
     }
 
     public Gladiator simulation(){
+        if(this.competitors.get("attacker") == null && this.competitors.get("defender") == null)
+                return null;
+        else if(this.competitors.get("attacker") == null)
+                return this.competitors.get("defender");
+        else if(this.competitors.get("defender") == null)
+                return this.competitors.get("attacker");
+
         while(!this.competitors.get("attacker").isDead() && !this.competitors.get("defender").isDead()) {
             hitOrMiss();
             if(isHit()){
