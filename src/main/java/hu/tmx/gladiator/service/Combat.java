@@ -98,7 +98,7 @@ public class Combat {
         this.damage = (competitors.get("attacker").getStrength() * range);
         plusDamage();
         competitors.get("defender").decreaseHpBy((int)damage);
-        System.out.println(competitors.get("attacker").getFullName() + " deals " + damage + " damage");
+        System.out.println(competitors.get("attacker").getFullName() + " deals " + (int)damage + " damage");
     }
 
     private void bleeding() {
