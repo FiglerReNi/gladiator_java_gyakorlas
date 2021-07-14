@@ -18,8 +18,8 @@ public abstract class Gladiator {
     private int currentHealth;
     private WeaponType weaponType;
     private boolean paralyzed;
-    private int causeBleeding;
-    private int causePoisone;
+    private int bleeding;
+    private int poisoned;
     private int weaponEffectTurns;
 
     public Gladiator(String name) {
@@ -31,8 +31,8 @@ public abstract class Gladiator {
         this.currentHealth = this.health;
         this.chooseWeaponType();
         this.paralyzed = false;
-        this.causeBleeding = 0;
-        this.causePoisone = 0;
+        this.bleeding = 0;
+        this.poisoned = 0;
         this.weaponEffectTurns = 0;
     }
 
@@ -101,26 +101,26 @@ public abstract class Gladiator {
     }
 
     public int getBleeding() {
-        return causeBleeding;
+        return bleeding;
     }
 
-    public void setBleeding(int causeBleeding) {
-        this.causeBleeding = causeBleeding;
+    public void setBleeding(int bleeding) {
+        this.bleeding = bleeding;
     }
 
     public int getPoisoned() {
-        return causePoisone;
+        return poisoned;
     }
 
-    public void setPoisoned(int causePoisone) {
-        this.causePoisone = causePoisone;
+    public void setPoisoned(int poisoned) {
+        this.poisoned = poisoned;
     }
 
-    public int getTurns() {
+    public int getWeaponEffectTurns() {
         return weaponEffectTurns;
     }
 
-    public void setTurns(int weaponEffectTurns) {
+    public void setWeaponEffectTurns(int weaponEffectTurns) {
         this.weaponEffectTurns = weaponEffectTurns;
     }
 

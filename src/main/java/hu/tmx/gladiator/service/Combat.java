@@ -103,40 +103,40 @@ public class Combat {
 
     private void causeBleeding() {
         if ((RANDOM.nextInt(100) + 1) <= 5) {
-            competitors.get("attacker").setBleeding(competitors.get("attacker").getBleeding() + 1);
-            setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding()));
+            competitors.get("defender").setBleeding(competitors.get("defender").getBleeding() + 1);
+            setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("defender").getBleeding()));
         } else {
-            if (competitors.get("attacker").getBleeding() != 0) {
-                setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding()));
+            if (competitors.get("defender").getBleeding() != 0) {
+                setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("defender").getBleeding()));
             }
         }
     }
 
     private void causePoison() {
         if ((RANDOM.nextInt(100) + 1) <= 20) {
-            competitors.get("attacker").setPoisoned(competitors.get("attacker").getPoisoned() + 1);
-            if (competitors.get("attacker").getPoisoned() > 1) {
+            competitors.get("defender").setPoisoned(competitors.get("defender").getPoisoned() + 1);
+            if (competitors.get("defender").getPoisoned() > 1) {
                 competitors.get("defender").setCurrentHealth(0);
             }
             setDamage(this.damage +(competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
-            if (competitors.get("attacker").getPoisoned() != 0 && competitors.get("attacker").getTurns() < 3) {
-                competitors.get("attacker").setPoisoned(competitors.get("attacker").getPoisoned() + 1);
+            if (competitors.get("defender").getPoisoned() != 0 && competitors.get("defender").getWeaponEffectTurns() < 3) {
+                competitors.get("defender").setPoisoned(competitors.get("defender").getPoisoned() + 1);
                 setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
-            if (competitors.get("attacker").getTurns() == 3) {
-                competitors.get("attacker").setPoisoned(0);
+            if (competitors.get("defender").getWeaponEffectTurns() == 3) {
+                competitors.get("defender").setPoisoned(0);
             }
         }
     }
 
     private void causeBurning() {
         if ((RANDOM.nextInt(100) + 1) <= 15) {
-            competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() + (RANDOM.nextInt(5) + 1));
+            competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() + (RANDOM.nextInt(5) + 1));
             setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
-            if (competitors.get("attacker").getTurns() != 0) {
-                competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() - 1);
+            if (competitors.get("defender").getWeaponEffectTurns() != 0) {
+                competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() - 1);
                 setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
         }
@@ -144,13 +144,13 @@ public class Combat {
 
     private void causeParalyzing() {
         if ((RANDOM.nextInt(100) + 1) <= 10) {
-            competitors.get("attacker").setTurns(4);
+            competitors.get("defender").setWeaponEffectTurns(4);
             competitors.get("defender").setParalyzed(true);
         } else {
-            if (competitors.get("attacker").getTurns() > 0) {
-                competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() - 1);
+            if (competitors.get("defender").getWeaponEffectTurns() > 0) {
+                competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() - 1);
             }
-            competitors.get("defender").setParalyzed(competitors.get("attacker").getTurns() != 0);
+            competitors.get("defender").setParalyzed(competitors.get("defender").getWeaponEffectTurns() != 0);
         }
     }
 }
