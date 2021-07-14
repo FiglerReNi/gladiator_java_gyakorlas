@@ -79,16 +79,16 @@ public class Combat {
     private void plusDamage() {
         switch (competitors.get("attacker").getWeaponType()) {
             case BLEEDING:
-                bleeding();
+                causeBleeding();
                 break;
             case POISON:
-                poison();
+                causePoison();
                 break;
             case BURNING:
-                burning();
+                causeBurning();
                 break;
             case PARALYZING:
-                paralyzing();
+                causeParalyzing();
                 break;
         }
     }
@@ -101,7 +101,7 @@ public class Combat {
         System.out.println(competitors.get("attacker").getFullName() + " deals " + (int)damage + " damage");
     }
 
-    private void bleeding() {
+    private void causeBleeding() {
         if ((RANDOM.nextInt(100) + 1) <= 5) {
             competitors.get("attacker").setBleeding(competitors.get("attacker").getBleeding() + 1);
             setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("attacker").getBleeding()));
@@ -112,7 +112,7 @@ public class Combat {
         }
     }
 
-    private void poison() {
+    private void causePoison() {
         if ((RANDOM.nextInt(100) + 1) <= 20) {
             competitors.get("attacker").setPoisoned(competitors.get("attacker").getPoisoned() + 1);
             if (competitors.get("attacker").getPoisoned() > 1) {
@@ -130,7 +130,7 @@ public class Combat {
         }
     }
 
-    private void burning() {
+    private void causeBurning() {
         if ((RANDOM.nextInt(100) + 1) <= 15) {
             competitors.get("attacker").setTurns(competitors.get("attacker").getTurns() + (RANDOM.nextInt(5) + 1));
             setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
@@ -142,7 +142,7 @@ public class Combat {
         }
     }
 
-    private void paralyzing() {
+    private void causeParalyzing() {
         if ((RANDOM.nextInt(100) + 1) <= 10) {
             competitors.get("attacker").setTurns(4);
             competitors.get("defender").setParalyzed(true);
