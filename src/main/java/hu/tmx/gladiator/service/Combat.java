@@ -13,16 +13,7 @@ public class Combat {
     private boolean hit;
     private double damage;
 
-    public Combat(Gladiator gladiatorOne, Gladiator gladiatorTwo) {
-        int choice = RANDOM.nextInt(2);
-        if (choice == 1) {
-            this.competitors.put("attacker", gladiatorOne);
-            this.competitors.put("defender", gladiatorTwo);
-        } else {
-            this.competitors.put("attacker", gladiatorTwo);
-            this.competitors.put("defender", gladiatorOne);
-        }
-    }
+    public Combat() {}
 
     public void setHit(boolean hit) {
         this.hit = hit;
@@ -32,7 +23,9 @@ public class Combat {
         this.damage = damage;
     }
 
-    public Gladiator simulation() {
+    public Gladiator simulation(Gladiator gladiatorOne, Gladiator gladiatorTwo) {
+        decideAttackerDefender(gladiatorOne, gladiatorTwo);
+
         if (competitors.get("attacker") == null && competitors.get("defender") == null)
             return null;
         else if (competitors.get("attacker") == null)
@@ -64,6 +57,17 @@ public class Combat {
         competitors.get("attacker").healUp();
         System.out.println(competitors.get("defender").getFullName() + " died " + competitors.get("attacker").getFullName() + " wins");
         return competitors.get("attacker");
+    }
+
+    private void decideAttackerDefender(Gladiator gladiatorOne, Gladiator gladiatorTwo){
+        int choice = RANDOM.nextInt(2);
+        if (choice == 1) {
+            this.competitors.put("attacker", gladiatorOne);
+            this.competitors.put("defender", gladiatorTwo);
+        } else {
+            this.competitors.put("attacker", gladiatorTwo);
+            this.competitors.put("defender", gladiatorOne);
+        }
     }
 
     private void hitOrMiss() {

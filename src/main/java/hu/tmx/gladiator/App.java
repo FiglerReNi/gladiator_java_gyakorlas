@@ -14,17 +14,18 @@ public class App {
 
         int competitorsNumber = (int) Math.pow(2,(RANDOM.nextInt(4) + 1));
         List<Gladiator> competitors = new ArrayList<>();
+        Combat combat = new Combat();
 
         for(int i = 0; i < competitorsNumber; i++){
             competitors.add(GladiatorFactory.generateRandomGladiator());
         }
+
         while (competitors.size() != 1){
             System.out.println("-----------------------------------\n");
             List<Gladiator> temp = new ArrayList<>(competitors);
             competitors.clear();
             for(int i = 0; i < temp.size(); i = i + 2){
-                Combat combat = new Combat(temp.get(i), temp.get(i+1));
-                competitors.add(combat.simulation());
+                competitors.add(combat.simulation(temp.get(i), temp.get(i+1)));
                 System.out.println("\n");
             }
         }
