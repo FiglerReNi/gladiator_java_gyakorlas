@@ -175,7 +175,7 @@ public abstract class Gladiator {
     @Override
     public String toString() {
         return "Gladiator{" +
-                "name='" + getFullName() + '\'' +
+                "name='" + getFullName() +
                 ", level=" + level +
                 ", health=" + health +
                 ", strength=" + strength +
