@@ -1,7 +1,5 @@
 package hu.tmx.gladiator.service;
 
-import hu.tmx.gladiator.model.Archer;
-import hu.tmx.gladiator.model.Gladiator;
 import hu.tmx.gladiator.util.Util;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
