@@ -1,10 +1,11 @@
 package hu.tmx.gladiator.model;
 
+import hu.tmx.gladiator.util.Util;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static hu.tmx.gladiator.util.Util.RANDOM;
 
 public abstract class Gladiator {
 
@@ -24,10 +25,10 @@ public abstract class Gladiator {
 
     public Gladiator(String name) {
         this.name = name;
-        this.health = RANDOM.nextInt(76) + 25;
-        this.strength = RANDOM.nextInt(76) + 25;
-        this.dexterity = RANDOM.nextInt(76) + 25;
-        this.level = RANDOM.nextInt(5) + 1;
+        this.health = Util.nextInt(76) + 25;
+        this.strength = Util.nextInt(76) + 25;
+        this.dexterity = Util.nextInt(76) + 25;
+        this.level = Util.nextInt(5) + 1;
         this.currentHealth = this.health;
         this.chooseWeaponType();
         this.paralyzed = false;
@@ -124,6 +125,7 @@ public abstract class Gladiator {
         this.weaponEffectTurns = weaponEffectTurns;
     }
 
+
     public String getFullName() {
         return getClass().getSimpleName() + " " + getName();
     }
@@ -162,9 +164,9 @@ public abstract class Gladiator {
     }
 
     private void chooseWeaponType() {
-        if ((RANDOM.nextInt(100) + 1) <= 10) {
+        if ((Util.nextInt(100) + 1) <= 10) {
             List<WeaponType> values = Collections.unmodifiableList(Arrays.asList(WeaponType.values()));
-            setWeaponType(values.get(RANDOM.nextInt(values.size() - 1)));
+            setWeaponType(values.get(Util.nextInt(values.size() - 1)));
         } else {
             setWeaponType(WeaponType.NORMAL);
         }

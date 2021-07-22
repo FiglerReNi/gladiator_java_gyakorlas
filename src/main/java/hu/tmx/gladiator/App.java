@@ -3,16 +3,16 @@ package hu.tmx.gladiator;
 import hu.tmx.gladiator.model.Gladiator;
 import hu.tmx.gladiator.service.Combat;
 import hu.tmx.gladiator.service.GladiatorFactory;
+import hu.tmx.gladiator.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static hu.tmx.gladiator.util.Util.RANDOM;
 
 public class App {
     public static void main(String[] args) {
 
-        int competitorsNumber = (int) Math.pow(2,(RANDOM.nextInt(4) + 1));
+        int competitorsNumber = (int) Math.pow(2,(Util.nextInt(4) + 1));
         List<Gladiator> competitors = new ArrayList<>();
         Combat combat = new Combat();
 

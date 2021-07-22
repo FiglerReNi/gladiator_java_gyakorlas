@@ -1,13 +1,13 @@
 package hu.tmx.gladiator.service;
 
 import hu.tmx.gladiator.model.*;
+import hu.tmx.gladiator.util.Util;
 
-import static hu.tmx.gladiator.util.Util.RANDOM;
 import static hu.tmx.gladiator.util.Util.randomName;
 
 public class GladiatorFactory {
     public static Gladiator generateRandomGladiator() {
-        int choice = RANDOM.nextInt(5);
+        int choice = Util.nextInt(5);
         Gladiator gladiator;
         switch (choice) {
             case 0:

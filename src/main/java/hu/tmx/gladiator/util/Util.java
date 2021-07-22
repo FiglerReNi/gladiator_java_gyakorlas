@@ -10,9 +10,14 @@ public class Util {
 
     public static final Random RANDOM = new Random();
 
+    public static int nextInt(int bound) {
+        return RANDOM.nextInt(bound);
+    }
+
     public static String randomName() {
         NameGenerator generator = new NameGenerator();
         Name name = generator.generateName(Gender.MALE);
         return name.getFirstName();
     }
+
 }

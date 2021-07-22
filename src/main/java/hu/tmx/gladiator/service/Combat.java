@@ -1,11 +1,10 @@
 package hu.tmx.gladiator.service;
 
 import hu.tmx.gladiator.model.*;
+import hu.tmx.gladiator.util.Util;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static hu.tmx.gladiator.util.Util.RANDOM;
 
 public class Combat {
 
@@ -60,7 +59,7 @@ public class Combat {
     }
 
     private void decideAttackerDefender(Gladiator gladiatorOne, Gladiator gladiatorTwo){
-        int choice = RANDOM.nextInt(2);
+        int choice = Util.nextInt(2);
         if (choice == 1) {
             this.competitors.put("attacker", gladiatorOne);
             this.competitors.put("defender", gladiatorTwo);
@@ -71,7 +70,7 @@ public class Combat {
     }
 
     private void hitOrMiss() {
-        int percentage = RANDOM.nextInt(100) + 1;
+        int percentage = Util.nextInt(100) + 1;
         int chanceValue;
         int dexDifference = competitors.get("attacker").getDexterity() - competitors.get("defender").getDexterity();
         if (dexDifference < 10) {
@@ -98,7 +97,7 @@ public class Combat {
     }
 
     private void attack() {
-        double range = (double)(RANDOM.nextInt(5) + 1) / 10;
+        double range = (double)(Util.nextInt(5) + 1) / 10;
         this.damage = (competitors.get("attacker").getStrength() * range);
         plusDamage();
         competitors.get("defender").decreaseHpBy((int)damage);
@@ -106,7 +105,7 @@ public class Combat {
     }
 
     private void causeBleeding() {
-        if ((RANDOM.nextInt(100) + 1) <= 5) {
+        if ((Util.nextInt(100) + 1) <= 5) {
             competitors.get("defender").setBleeding(competitors.get("defender").getBleeding() + 1);
             setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.BLEEDING_DAMAGE * competitors.get("defender").getBleeding()));
         } else {
@@ -117,7 +116,7 @@ public class Combat {
     }
 
     private void causePoison() {
-        if ((RANDOM.nextInt(100) + 1) <= 20) {
+        if ((Util.nextInt(100) + 1) <= 20) {
             competitors.get("defender").setPoisoned(competitors.get("defender").getPoisoned() + 1);
             if (competitors.get("defender").getPoisoned() > 1) {
                 competitors.get("defender").setCurrentHealth(0);
@@ -135,8 +134,8 @@ public class Combat {
     }
 
     private void causeBurning() {
-        if ((RANDOM.nextInt(100) + 1) <= 15) {
-            competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() + (RANDOM.nextInt(5) + 1));
+        if ((Util.nextInt(100) + 1) <= 15) {
+            competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() + (Util.nextInt(5) + 1));
             setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
             if (competitors.get("defender").getWeaponEffectTurns() != 0) {
@@ -147,7 +146,7 @@ public class Combat {
     }
 
     private void causeParalyzing() {
-        if ((RANDOM.nextInt(100) + 1) <= 10) {
+        if ((Util.nextInt(100) + 1) <= 10) {
             competitors.get("defender").setWeaponEffectTurns(4);
             competitors.get("defender").setParalyzed(true);
         } else {
