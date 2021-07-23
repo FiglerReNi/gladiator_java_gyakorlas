@@ -22,6 +22,14 @@ public class Combat {
         this.damage = damage;
     }
 
+    public double getDamage() {
+        return damage;
+    }
+
+    public Map<String, Gladiator> getCompetitors() {
+        return competitors;
+    }
+
     public Gladiator simulation(Gladiator gladiatorOne, Gladiator gladiatorTwo) {
         decideAttackerDefender(gladiatorOne, gladiatorTwo);
 
