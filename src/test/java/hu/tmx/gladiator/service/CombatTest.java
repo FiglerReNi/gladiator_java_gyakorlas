@@ -74,7 +74,29 @@ class CombatTest {
             assertAll(
                     ()->assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
                     ()->assertEquals(12.5, combat.getDamage()),
-                    ()->assertTrue(combat.getCompetitors().get("defender").isDead())
+                    ()->assertTrue(combat.getCompetitors().get("defender").isDead()),
+                    ()->assertEquals(-7, combat.getCompetitors().get("defender").getCurrentHealth())
+            );
+        }
+    }
+
+    @Test
+    public void combatWithParalizedWinFirstAttackerInTwoRound(){
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorTwo.setHealth(20);
+            gladiatorTwo.setStrength(20);
+            gladiatorTwo.setDexterity(20);
+            gladiatorTwo.setCurrentHealth(20);
+            gladiatorOne.setWeaponType(WeaponType.PARALYZING);
+            assertAll(
+                    ()->assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    ()->assertTrue(combat.getCompetitors().get("defender").isDead()),
+                    ()->assertEquals(4, combat.getCompetitors().get("defender").getWeaponEffectTurns()),
+                    ()->assertTrue(combat.getCompetitors().get("defender").isParalyzed()),
+                    ()->assertEquals(-4, combat.getCompetitors().get("defender").getCurrentHealth())
             );
         }
     }
