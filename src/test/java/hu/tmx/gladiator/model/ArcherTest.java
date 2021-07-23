@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.fest.reflect.core.Reflection.method;
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,10 +98,15 @@ class ArcherTest {
     //static függvény mockolásra példa
     //privat method tesztelésre példa
     @Test
-    public void weaponTypeChoiceWhenRandomNumberLessThenTen() {
+    public void weaponTypeChoiceWhenRandomNumberLessThenTen() throws ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
             mocked.when(() -> Util.nextInt(anyInt())).thenReturn(9).thenReturn(2);
-            method("chooseWeaponType").in(archer).invoke();
+            //private method hívása java beépített reflect osztállyal
+            Method method = Class.forName("hu.tmx.gladiator.model.Gladiator").getDeclaredMethod("chooseWeaponType",  null);
+            method.setAccessible(true);
+            method.invoke(archer, null);
+            //private method hívása dependency-vel
+            //method("chooseWeaponType").in(archer).invoke();
             WeaponType expected = WeaponType.BURNING;
             assertEquals(expected, archer.getWeaponType());
             mocked.verify(() -> Util.nextInt(anyInt()), times(2));
@@ -107,9 +114,14 @@ class ArcherTest {
     }
 
     @Test
-    public void weaponTypeChoiceWhenRandomNumberBiggerThenTen() {
+    public void weaponTypeChoiceWhenRandomNumberBiggerThenTen() throws InvocationTargetException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException {
         try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
             mocked.when(() -> Util.nextInt(anyInt())).thenReturn(12);
+            //private method hívása java beépített reflect osztállyal
+            //Method method = Class.forName("hu.tmx.gladiator.model.Gladiator").getDeclaredMethod("chooseWeaponType",  null);
+            //method.setAccessible(true);
+            //method.invoke(archer, null);
+            //private method hívása dependency-vel
             method("chooseWeaponType").in(archer).invoke();
             WeaponType expected = WeaponType.NORMAL;
             assertEquals(expected, archer.getWeaponType());
