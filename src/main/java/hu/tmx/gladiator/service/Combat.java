@@ -128,15 +128,17 @@ public class Combat {
             competitors.get("defender").setPoisoned(competitors.get("defender").getPoisoned() + 1);
             if (competitors.get("defender").getPoisoned() > 1) {
                 competitors.get("defender").setCurrentHealth(0);
+            }else{
+                setDamage(this.damage +(competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
-            setDamage(this.damage +(competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
         } else {
-            if (competitors.get("defender").getPoisoned() != 0 && competitors.get("defender").getWeaponEffectTurns() < 3) {
-                competitors.get("defender").setPoisoned(competitors.get("defender").getPoisoned() + 1);
+            competitors.get("defender").setWeaponEffectTurns(competitors.get("defender").getWeaponEffectTurns() + 1);
+            if (competitors.get("defender").getPoisoned() != 0 && competitors.get("defender").getWeaponEffectTurns() <= 3) {
                 setDamage(this.damage + (competitors.get("defender").getCurrentHealth() * Gladiator.POISON_BURNING_DAMAGE));
             }
-            if (competitors.get("defender").getWeaponEffectTurns() == 3) {
+            if (competitors.get("defender").getWeaponEffectTurns() > 3) {
                 competitors.get("defender").setPoisoned(0);
+                competitors.get("defender").setWeaponEffectTurns(0);
             }
         }
     }

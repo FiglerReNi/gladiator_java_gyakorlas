@@ -101,6 +101,87 @@ class CombatTest {
         }
     }
 
+    @Test
+    public void combatWithBleedingWinFirstAttackerInOneRound() {
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorOne.setWeaponType(WeaponType.BLEEDING);
+            assertAll(
+                    () -> assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    () -> assertEquals(12.6, combat.getDamage()),
+                    () -> assertEquals(1, combat.getCompetitors().get("defender").getBleeding())
+            );
+        }
+    }
+
+    @Test
+    public void alreadyBleedingSecondRound() {
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(10);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorOne.setWeaponType(WeaponType.BLEEDING);
+            gladiatorTwo.setBleeding(2);
+            assertAll(
+                    () -> assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    () -> assertEquals(12.7, combat.getDamage()),
+                    () -> assertEquals(2, combat.getCompetitors().get("defender").getBleeding())
+            );
+        }
+    }
+
+    @Test
+    public void combatWithPoisonWinFirstAttackerInOneRound() {
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorOne.setWeaponType(WeaponType.POISON);
+            assertAll(
+                    () -> assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    () -> assertEquals(12.75, combat.getDamage()),
+                    () -> assertEquals(1, combat.getCompetitors().get("defender").getPoisoned())
+            );
+        }
+    }
+
+    @Test
+    public void poisonCausesDeath() {
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorOne.setWeaponType(WeaponType.POISON);
+            gladiatorTwo.setPoisoned(1);
+            assertAll(
+                    () -> assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    () -> assertEquals(-12, combat.getCompetitors().get("defender").getCurrentHealth()),
+                    () -> assertEquals(12.5, combat.getDamage()),
+                    () -> assertEquals(2, combat.getCompetitors().get("defender").getPoisoned())
+            );
+        }
+    }
+
+
+    @Test
+    public void combatWithBurningWinFirstAttackerInOneRound() {
+        try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+            mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(100)).thenReturn(1);
+            mocked.when(() -> Util.nextInt(5)).thenReturn(4);
+            gladiatorOne.setWeaponType(WeaponType.BURNING);
+            assertAll(
+                    () -> assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo)),
+                    () -> assertEquals(12.75, combat.getDamage()),
+                    () -> assertEquals(5, combat.getCompetitors().get("defender").getWeaponEffectTurns())
+            );
+        }
+    }
+
+
+
     @AfterEach
     public void tearDown(){
         combat = null;
