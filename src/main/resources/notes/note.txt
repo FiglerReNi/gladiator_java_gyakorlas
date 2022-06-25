@@ -1,0 +1,48 @@
+Reflection:
+  	• Tesztelésnél private methodot ennek használatával tudunk tesztelni.
+  	• Általában próbáljuk kerülni a private methodok tesztelését, és a meghívás helyén tesztelni.
+  	• Használata:
+  		○ A változat:
+  		   Method method = Class.forName("hu.tmx.gladiator.model.Gladiator").getDeclaredMethod("chooseWeaponType",  null);
+  		   method.setAccessible(true);
+  		   method.invoke(archer, null);
+  		○ B változat:
+  			    <dependency>
+  			      <groupId>org.easytesting</groupId>
+  			      <artifactId>fest-assert</artifactId>
+  			      <version>1.4</version>
+  			    </dependency>
+  			    <dependency>
+  			      <groupId>org.easytesting</groupId>
+  			      <artifactId>fest-reflect</artifactId>
+  			      <version>1.2</version>
+  			    </dependency>
+  		      method("chooseWeaponType").in(archer).invoke();
+
+  Reflection működése:
+  Reflection az abban segít hogy runtime alatt tudsz megnézni csomó mindent egy osztályról amit még compile time alatt nem tudsz elérni
+  Meg tudod keresni az osztályodat és meg tudod kérdezni hogy milyen methodjai vannak és így meg tudod találni és meghívni a privátot is,
+  amit ugye a compiler nem enged.
+  Springben így pedig nagyjából úgy működik ez a dolog, hogy amikor építi fel az application context nevű dolgot, akkor végigteker hogy milyen osztályaid vannak és megnézi hogy heló neked van e olyan annotációd pl hogy Component. Ha van akkor abból készít egy úgynevezett spring bean-t és behelyezi az application contextbe.
+  Lényeg az hogy a spring a háttérben ezt használja. Nincsen neked leírva csomó minden, hanem amikor elindítod akkor runtime alatt ez a reflection dolog felépít neked csomó mindent és összállítja az applikációt.
+
+Static mockolás:
+   try (MockedStatic<Util> mocked = Mockito.mockStatic(Util.class)) {
+              mocked.when(() -> Util.nextInt(2)).thenReturn(1);
+              gladiatorTwo.setCurrentHealth(0);
+              assertEquals(gladiatorOne, combat.simulation(gladiatorOne, gladiatorTwo));
+              mocked.verify(() -> Util.nextInt(2));
+   }
+
+Random:
+  Seed:
+  	new Random(seed)
+  	A seed helyére bármilyen számot beírhatunk. Ez arra jó, hogy ugyan véletlen számot fog generálni, de mindig ugyanazt.
+    User teszteknél lehet jó. Pl ha lefuttatjuk az alkalmazásuk sokszor egymás után, mert valamit vizsgálunk, így tudjuk elérni, hogy mindig ugyanúgy, ugyanazzal az értékekkel fusson.
+
+Teszte elnevezése:
+    Feature to be tested: Many suggests that it is better to simply write the feature to be tested because one is anyway using annotations to identify method as test methods. It is also recommended for the reason that it makes unit tests as alternate form of documentation and avoid code smells. Following is how tests in first example would read like if named using this technique:
+    	○ IsNotAnAdultIfAgeLessThan18
+    	○ FailToWithdrawMoneyIfAccountIsInvalid
+    	○ StudentIsNotAdmittedIfMandatoryFieldsAreMissing
+    Forrás: <https://dzone.com/articles/7-popular-unit-test-naming>
