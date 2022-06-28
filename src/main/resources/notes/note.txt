@@ -1,3 +1,8 @@
+https://dzone.com/articles/7-popular-unit-test-naming
+https://www.softwaretestingclass.com/basic-concepts-of-system-testing-a-beginners-guide/
+https://docs.djangoproject.com/en/1.10/intro/tutorial05/#introducing-automated-testing
+https://stackoverflow.com/questions/23396033/random-over-threadlocalrandom
+
 Reflection:
   	• Tesztelésnél private methodot ennek használatával tudunk tesztelni.
   	• Általában próbáljuk kerülni a private methodok tesztelését, és a meghívás helyén tesztelni.
